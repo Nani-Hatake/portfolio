@@ -1,12 +1,9 @@
-# Render Blueprint — deploys the portfolio web service + a free PostgreSQL database.
-# In Render: New +  ->  Blueprint  ->  connect this repo. Render reads this file.
-# You will be asked to fill the two "sync: false" values (admin username/password).
-
-databases:
-  - name: portfolio-db
-    plan: free
-    databaseName: portfoliodb
-    user: portfolio
+# Render Blueprint — deploys ONLY the web service.
+# The database is a free, permanent Neon PostgreSQL (neon.tech), NOT Render's
+# expiring free DB. You paste the Neon connection string into DATABASE_URL when
+# prompted (see DEPLOY.md → "Free permanent database with Neon").
+#
+# In Render: New +  ->  Blueprint  ->  connect this repo.
 
 services:
   - type: web
@@ -20,15 +17,14 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      # Postgres connection URL, injected automatically from the database above.
+      # Neon PostgreSQL connection string — you paste this in the dashboard.
+      # Format: postgresql://user:password@ep-xxx.REGION.aws.neon.tech/dbname?sslmode=require
       - key: DATABASE_URL
-        fromDatabase:
-          name: portfolio-db
-          property: connectionString
+        sync: false
       # JWT signing secret — Render generates a strong random value.
       - key: Jwt__Key
         generateValue: true
-      # Owner login — you set these in the Render dashboard when prompted.
+      # Owner login — you set these in the dashboard when prompted.
       - key: Admin__Username
         sync: false
       - key: Admin__Password

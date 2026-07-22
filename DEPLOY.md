@@ -24,23 +24,39 @@ git push -u origin main
 If GitHub asks for a password, use a **Personal Access Token** (Settings →
 Developer settings → Tokens), not your account password.
 
-## 2. Create the services on Render
+## 2. Free permanent database with Neon
+
+Render's own free database expires, so we use **Neon** (free tier, data stored
+permanently — the compute just sleeps when idle).
+
+1. Sign up at <https://neon.tech> (sign in with GitHub).
+2. **Create a project** (name it e.g. `portfolio`, keep the default region).
+   Neon auto-creates a database.
+3. On the project **Dashboard → Connect**, copy the **connection string**. It
+   looks like:
+   ```
+   postgresql://USER:PASSWORD@ep-xxxx-xxxx.us-east-2.aws.neon.tech/neondb?sslmode=require
+   ```
+   Keep this handy for the next step. (Treat it like a password.)
+
+## 3. Create the web service on Render
 
 1. Sign in at <https://render.com> (you can sign in with GitHub).
 2. Click **New +  →  Blueprint**.
-3. Select your `portfolio` repo. Render detects `render.yaml` and shows a web
-   service (`portfolio`) + a database (`portfolio-db`).
-4. It will prompt for the two secret values:
+3. Select your `portfolio` repo. Render detects `render.yaml` and shows the web
+   service (`portfolio`).
+4. It will prompt for the secret values:
+   - **DATABASE_URL** → paste the **Neon connection string** from step 2.
    - **Admin__Username** → your owner login (e.g. `LelouchLampourage`)
    - **Admin__Password** → your owner password (e.g. `LelouchLampourage@389`)
-   `Jwt__Key` is generated automatically; `DATABASE_URL` is wired from the DB.
-5. Click **Apply**. Render builds the Docker image, provisions Postgres, applies
-   the schema, seeds your data, and starts the app.
+   `Jwt__Key` is generated automatically.
+5. Click **Apply**. Render builds the Docker image, connects to Neon, applies the
+   schema, seeds your data, and starts the app.
 
 First build takes a few minutes. When it's live you'll get a URL like
 `https://portfolio-xxxx.onrender.com`.
 
-## 3. Verify
+## 4. Verify
 
 - Visit the URL — the portfolio loads.
 - Click the lock icon → sign in with your `Admin__Username` / `Admin__Password`.
@@ -50,10 +66,11 @@ First build takes a few minutes. When it's live you'll get a URL like
 
 ## Notes & gotchas
 
-- **Free tier sleeps.** After ~15 min idle the web service spins down; the next
-  visit takes ~50s to wake. Upgrade the service to a paid instance to keep it warm.
-- **Free Postgres expires** after 90 days on Render's free plan (they email you).
-  Back up or upgrade before then.
+- **Free web service sleeps.** After ~15 min idle the web service spins down; the
+  next visit takes ~50s to wake. Upgrade the service to a paid instance to keep it warm.
+- **Database is permanent (Neon).** Neon's free tier does not delete your data; the
+  DB compute just auto-suspends when idle and wakes on the next query. No expiry,
+  nothing to redeploy.
 - **Changing the password later:** update the `Admin__Password` env var in the
   Render dashboard and redeploy — startup re-syncs the admin from config.
 - **Resume file:** put `Bharath_Manepalli_Resume.pdf` in `Portfolio.Api/wwwroot/`,
@@ -64,7 +81,7 @@ First build takes a few minutes. When it's live you'll get a URL like
 
 | Variable            | Set by        | Purpose                                  |
 |---------------------|---------------|------------------------------------------|
-| `DATABASE_URL`      | render.yaml   | Postgres connection (auto from DB)       |
+| `DATABASE_URL`      | you (Neon)    | Neon Postgres connection string          |
 | `Jwt__Key`          | render.yaml   | JWT signing secret (auto-generated)      |
 | `Admin__Username`   | you           | Owner login username                     |
 | `Admin__Password`   | you           | Owner login password                     |
