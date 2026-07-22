@@ -1,0 +1,19 @@
+# .NET build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# Local secrets — never commit (contains DB password, JWT key, admin creds)
+appsettings.Development.json
+appsettings.*.Local.json
+
+# OS
+Thumbs.db
+.DS_Store

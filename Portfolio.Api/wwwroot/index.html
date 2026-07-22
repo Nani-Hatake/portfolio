@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bharath Manepalli — Full Stack Developer</title>
+  <meta name="description" content="Bharath Manepalli — Full Stack Developer | C# & .NET Backend Specialist based in Hyderabad, India." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) document.documentElement.classList.add('dark');
+    })();
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+        colors: { ink: '#0f172a', navy: '#1e40af', steel: '#475569' },
+      } },
+    };
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body { font-feature-settings: "cv02","cv03","cv04","cv11"; }
+    ::selection { background: #1e40af; color: #fff; }
+
+    .mesh { position: fixed; inset: 0; z-index: -2; overflow: hidden; pointer-events: none; }
+    .mesh::before, .mesh::after {
+      content: ""; position: absolute; width: 60vw; height: 60vw; border-radius: 9999px;
+      filter: blur(90px); opacity: .35; transition: opacity .6s ease;
+    }
+    .mesh::before { top: -18vw; left: -12vw; background: radial-gradient(circle at 30% 30%, #93c5fd, transparent 60%); }
+    .mesh::after  { top: 20vw; right: -18vw; background: radial-gradient(circle at 70% 30%, #c7d2fe, transparent 60%); }
+    .mesh .blob3 { position: absolute; width: 45vw; height: 45vw; border-radius: 9999px; bottom: -20vw; left: 30%; filter: blur(100px); opacity: .25; background: radial-gradient(circle at 50% 50%, #a5b4fc, transparent 60%); }
+    .dark .mesh::before { background: radial-gradient(circle at 30% 30%, #1e3a8a, transparent 60%); opacity: .5; }
+    .dark .mesh::after  { background: radial-gradient(circle at 70% 30%, #3730a3, transparent 60%); opacity: .45; }
+    .dark .mesh .blob3  { background: radial-gradient(circle at 50% 50%, #1e40af, transparent 60%); opacity: .4; }
+
+    .grid-overlay {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: linear-gradient(to right, rgba(15,23,42,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,.04) 1px, transparent 1px);
+      background-size: 46px 46px;
+      -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 75%); mask-image: radial-gradient(ellipse at 50% 0%, black, transparent 75%);
+    }
+    .dark .grid-overlay { background-image: linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px); }
+
+    .glass { background: rgba(255,255,255,.72); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.6); }
+    .dark .glass { background: rgba(15,23,42,.6); border: 1px solid rgba(255,255,255,.08); }
+
+    .card { background: rgba(255,255,255,.78); border: 1px solid rgba(226,232,240,1); backdrop-filter: blur(8px); transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease, border-color .35s ease; }
+    .dark .card { background: rgba(15,23,42,.55); border-color: rgba(255,255,255,.08); }
+    .card:hover { transform: translateY(-5px); border-color: rgba(30,64,175,.45); box-shadow: 0 24px 60px -26px rgba(30,64,175,.55); }
+    .dark .card:hover { box-shadow: 0 24px 70px -24px rgba(59,130,246,.5); border-color: rgba(96,165,250,.5); }
+
+    .badge { border: 1px solid rgba(226,232,240,1); background: rgba(248,250,252,.9); color: #475569; }
+    .dark .badge { border-color: rgba(255,255,255,.1); background: rgba(30,41,59,.7); color: #cbd5e1; }
+
+    @keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; }
+    .reveal.in { animation: riseIn .7s cubic-bezier(.22,1,.36,1) forwards; }
+
+    .modal-enter { opacity: 0; }
+    .modal-enter .modal-panel { transform: translateY(16px) scale(.98); }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; border: 2px solid transparent; background-clip: content-box; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; background-clip: content-box; }
+
+    .admin-add { border: 1px dashed rgba(30,64,175,.4); }
+    .dark .admin-add { border-color: rgba(96,165,250,.4); }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-ink dark:bg-[#0b1120] dark:text-slate-100 font-sans antialiased leading-relaxed transition-colors duration-300">
+
+  <div class="mesh"><div class="blob3"></div></div>
+  <div class="grid-overlay"></div>
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 inset-x-0 z-40">
+    <div class="mx-auto max-w-6xl px-5">
+      <nav class="glass mt-4 flex items-center justify-between rounded-2xl px-4 py-3 shadow-lg shadow-slate-900/5">
+        <a href="/" data-home class="flex items-center gap-2.5 font-bold tracking-tight">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-ink text-sm font-black text-white dark:bg-white dark:text-ink">BM</span>
+          <span class="hidden sm:block text-[15px]">Bharath Manepalli</span>
+        </a>
+        <div class="hidden items-center gap-1 md:flex">
+          <a href="#about" data-nav class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">About</a>
+          <a href="#skills" data-nav class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">Skills</a>
+          <a href="#experience" data-nav class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">Experience</a>
+          <a href="#projects" data-nav class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">Projects</a>
+          <a href="#contact" data-nav class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">Contact</a>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="themeToggle" title="Toggle theme" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white/70 text-steel transition hover:text-navy dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+            <svg class="h-4 w-4 dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+            <svg class="hidden h-4 w-4 dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </button>
+          <button id="adminToggle" title="Owner login" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white/70 text-steel transition hover:text-navy dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2" /><path d="M8 11V7a4 4 0 1 1 8 0v4" stroke-linecap="round" /></svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <div id="adminBanner" class="fixed top-[84px] inset-x-0 z-30 hidden justify-center px-5">
+    <button id="exitAdmin" class="flex items-center gap-2 rounded-full border border-navy/20 bg-navy/10 px-4 py-1.5 text-xs font-semibold text-navy transition hover:bg-navy/20 dark:border-blue-400/20 dark:bg-blue-400/10 dark:text-blue-300">
+      <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-navy opacity-60 dark:bg-blue-400"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-navy dark:bg-blue-400"></span></span>
+      Owner Mode — everything is editable · click to sign out
+    </button>
+  </div>
+
+  <!-- ============================ HOME VIEW ============================ -->
+  <main id="homeView" class="pt-28">
+
+    <!-- HERO -->
+    <section id="home" class="relative">
+      <div class="mx-auto max-w-6xl px-5 pb-16 pt-10 sm:pt-16">
+        <div class="reveal flex items-center gap-3">
+          <span id="heroAvailability" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-steel shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-300"><span class="h-2 w-2 rounded-full bg-emerald-500"></span><span data-field="availability">…</span></span>
+          <button data-content-edit="profile:self" class="admin-only hidden items-center gap-1.5 rounded-full border border-navy/30 px-3 py-1.5 text-xs font-semibold text-navy dark:border-blue-400/30 dark:text-blue-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 4l4 4M4 20l1-4L16 5l3 3L8 19l-4 1z"/></svg>Edit profile</button>
+        </div>
+        <h1 id="heroTitle" class="reveal mt-6 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-6xl">…</h1>
+        <p id="heroTagline" class="reveal mt-6 max-w-2xl text-lg leading-relaxed text-steel dark:text-slate-300">…</p>
+        <div id="heroButtons" class="reveal mt-8 flex flex-wrap items-center gap-3"></div>
+        <div id="statsWrap" class="reveal mt-14">
+          <div id="statsGrid" class="grid grid-cols-2 gap-4 sm:grid-cols-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="md:col-span-1">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy dark:text-blue-400">About</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight">A bit about me</h2>
+          <button data-content-edit="profile:self" class="admin-only mt-4 hidden items-center gap-2 rounded-xl border border-navy/30 px-4 py-2 text-sm font-semibold text-navy dark:border-blue-400/30 dark:text-blue-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 4l4 4M4 20l1-4L16 5l3 3L8 19l-4 1z"/></svg>Edit profile &amp; bio</button>
+        </div>
+        <div class="md:col-span-2">
+          <div id="aboutBio" class="space-y-4 text-lg leading-relaxed text-steel dark:text-slate-300"></div>
+          <div id="aboutMeta" class="mt-6 flex flex-wrap gap-3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy dark:text-blue-400">Skills</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight">Technical toolkit</h2>
+          <p class="mt-3 text-lg leading-relaxed text-steel dark:text-slate-300">The languages, frameworks, and tools I reach for to design and ship full-stack products.</p>
+        </div>
+        <button data-content-add="skills" class="admin-only hidden items-center gap-2 rounded-xl bg-navy px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-ink dark:hover:bg-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add skill group</button>
+      </div>
+      <div id="skillsGrid" class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy dark:text-blue-400">Experience</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight">Where I've worked</h2>
+        </div>
+        <button data-content-add="experience" class="admin-only hidden items-center gap-2 rounded-xl bg-navy px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-ink dark:hover:bg-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add role</button>
+      </div>
+      <div id="experienceList" class="mt-10 space-y-5"></div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy dark:text-blue-400">Education</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight">Academic background</h2>
+        </div>
+        <button data-content-add="education" class="admin-only hidden items-center gap-2 rounded-xl bg-navy px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition hover:bg-ink dark:hover:bg-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add entry</button>
+      </div>
+      <div id="educationGrid" class="mt-10 grid gap-5 md:grid-cols-2"></div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy dark:text-blue-400">Projects</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight">Selected work</h2>
+          <p class="mt-3 text-lg leading-relaxed text-steel dark:text-slate-300">Click any project to explore its full case study.</p>
+        </div>
+        <button id="addProjectBtn" class="admin-only hidden items-center gap-2 rounded-xl bg-navy px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-ink dark:hover:bg-blue-500"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>Add New Project</button>
+      </div>
+
+      <!-- Instant skill search + tag filter -->
+      <div class="mt-8">
+        <div class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-steel dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.3-4.3"/></svg>
+          <input id="projectSearch" type="text" autocomplete="off" placeholder="Search projects by technology… (e.g. C#, React, SQL)" class="w-full rounded-xl border border-slate-200 bg-white/70 py-3 pl-12 pr-28 text-sm outline-none transition placeholder:text-slate-400 focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-white/5 dark:placeholder:text-slate-500" />
+          <button id="clearFilters" class="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-steel transition hover:border-navy hover:text-navy dark:border-white/10 dark:text-slate-300 dark:hover:border-blue-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Clear</button>
+        </div>
+        <div id="projectTags" class="mt-4 flex flex-wrap gap-2"></div>
+      </div>
+
+      <div id="projectsGrid" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <p id="projectsStatus" class="mt-10 rounded-2xl border border-dashed border-slate-300 bg-white/50 py-14 text-center text-steel dark:border-white/10 dark:bg-white/5 dark:text-slate-400">Loading projects…</p>
+    </section>
+
+    <!-- ACHIEVEMENTS & CERTIFICATIONS -->
+    <section id="achievements" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-navy dark:text-blue-400">Achievements &amp; Certifications</p>
+        <h2 class="mt-2 text-3xl font-extrabold tracking-tight">Milestones &amp; recognition</h2>
+      </div>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        <div class="card rounded-2xl p-6 sm:p-8">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3"><span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy dark:bg-blue-400/10 dark:text-blue-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M5 6H3v1a3 3 0 0 0 3 3M19 6h2v1a3 3 0 0 1-3 3"/></svg></span><h3 class="text-lg font-bold">Achievements</h3></div>
+            <button data-content-add="achievements" class="admin-only hidden h-8 w-8 place-items-center rounded-lg bg-navy text-white transition hover:bg-ink dark:hover:bg-blue-500" title="Add achievement"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+          <ul id="achievementsList" class="mt-5 space-y-3 text-steel dark:text-slate-300"></ul>
+        </div>
+        <div class="card rounded-2xl p-6 sm:p-8">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3"><span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy dark:bg-blue-400/10 dark:text-blue-400"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span><h3 class="text-lg font-bold">Certifications</h3></div>
+            <button data-content-add="certifications" class="admin-only hidden h-8 w-8 place-items-center rounded-lg bg-navy text-white transition hover:bg-ink dark:hover:bg-blue-500" title="Add certification"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+          <div id="certificationsList" class="mt-5 flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-ink to-slate-800 px-6 py-14 text-center shadow-2xl dark:border-white/10 dark:from-[#111a30] dark:to-[#0b1120] sm:px-12">
+        <p class="text-sm font-semibold uppercase tracking-widest text-white/60">Contact</p>
+        <h2 class="mx-auto mt-3 max-w-2xl text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Let's build something great together.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/70">Have a role, project, or idea in mind? I'd love to hear about it.</p>
+        <div id="contactButtons" class="mt-8 flex flex-wrap items-center justify-center gap-3"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ DETAIL VIEW ============================ -->
+  <main id="detailView" class="hidden pt-28">
+    <div id="detailContent" class="mx-auto max-w-5xl px-5 pb-24"></div>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white/60 dark:border-white/10 dark:bg-white/5">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-8 text-sm text-steel dark:text-slate-400 sm:flex-row">
+      <p>© <span id="year"></span> Bharath Manepalli. All rights reserved.</p>
+      <p>Full Stack Developer · C# &amp; .NET Backend Specialist</p>
+    </div>
+  </footer>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="loginOverlay absolute inset-0 bg-ink/50 backdrop-blur-sm"></div>
+    <div class="modal-panel relative w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl transition-all dark:border-white/10 dark:bg-slate-900 sm:p-8">
+      <div class="flex items-start justify-between">
+        <div><h3 class="text-xl font-bold">Owner login</h3><p class="mt-1 text-sm text-steel dark:text-slate-400">Sign in to manage your portfolio.</p></div>
+        <button id="closeLogin" class="grid h-9 w-9 place-items-center rounded-lg text-steel transition hover:bg-slate-100 dark:hover:bg-white/10"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <form id="loginForm" class="mt-6 space-y-4">
+        <input id="loginUser" type="text" required placeholder="Username" autocomplete="username" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition placeholder:text-slate-400 focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" />
+        <input id="loginPassword" type="password" required placeholder="Password" autocomplete="current-password" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition placeholder:text-slate-400 focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" />
+        <p id="loginError" class="hidden text-sm font-medium text-red-600 dark:text-red-400">Incorrect username or password.</p>
+        <button type="submit" id="loginSubmit" class="w-full rounded-xl bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink dark:hover:bg-blue-500">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PROJECT MODAL -->
+  <div id="projectModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div id="modalOverlay" class="absolute inset-0 bg-ink/50 backdrop-blur-sm"></div>
+    <div class="modal-panel relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl transition-all dark:border-white/10 dark:bg-slate-900 sm:p-8">
+      <div class="flex items-start justify-between">
+        <div><h3 id="modalTitle" class="text-xl font-bold">Add New Project</h3><p class="mt-1 text-sm text-steel dark:text-slate-400">Changes are saved to the SQL Server database.</p></div>
+        <button id="closeModal" class="grid h-9 w-9 place-items-center rounded-lg text-steel transition hover:bg-slate-100 dark:hover:bg-white/10"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <form id="projectForm" class="mt-6 space-y-4">
+        <input type="hidden" id="f-id" />
+        <div><label class="mb-1.5 block text-sm font-semibold" for="f-title">Title</label><input id="f-title" type="text" required class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" /></div>
+        <div><label class="mb-1.5 block text-sm font-semibold" for="f-summary">Summary <span class="font-normal text-steel dark:text-slate-400">(shown on card)</span></label><input id="f-summary" type="text" required class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" /></div>
+        <div><label class="mb-1.5 block text-sm font-semibold" for="f-desc">Description <span class="font-normal text-steel dark:text-slate-400">(detail page)</span></label><textarea id="f-desc" rows="3" class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800"></textarea></div>
+        <div><label class="mb-1.5 block text-sm font-semibold" for="f-tech">Tech Stack <span class="font-normal text-steel dark:text-slate-400">(comma-separated)</span></label><input id="f-tech" type="text" placeholder="C#, .NET, SQL Server" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" /></div>
+        <div><label class="mb-1.5 block text-sm font-semibold" for="f-features">Key Features <span class="font-normal text-steel dark:text-slate-400">(one per line)</span></label><textarea id="f-features" rows="3" class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800"></textarea></div>
+        <div><label class="mb-1.5 block text-sm font-semibold" for="f-media">Media URLs <span class="font-normal text-steel dark:text-slate-400">(one per line; prefix <code>video:</code> for videos)</span></label><textarea id="f-media" rows="2" class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800"></textarea></div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div><label class="mb-1.5 block text-sm font-semibold" for="f-github">GitHub Link</label><input id="f-github" type="url" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" /></div>
+          <div><label class="mb-1.5 block text-sm font-semibold" for="f-live">Live Demo Link</label><input id="f-live" type="url" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/20 dark:border-white/10 dark:bg-slate-800" /></div>
+        </div>
+        <p id="formError" class="hidden text-sm font-medium text-red-600 dark:text-red-400"></p>
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" id="cancelModal" class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-steel transition hover:bg-slate-100 dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/10">Cancel</button>
+          <button type="submit" id="formSubmit" class="rounded-xl bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink dark:hover:bg-blue-500">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- GENERIC CONTENT MODAL (about, skills, experience, education, stats, achievements, certifications) -->
+  <div id="contentModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div id="contentOverlay" class="absolute inset-0 bg-ink/50 backdrop-blur-sm"></div>
+    <div class="modal-panel relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl transition-all dark:border-white/10 dark:bg-slate-900 sm:p-8">
+      <div class="flex items-start justify-between">
+        <div><h3 id="contentModalTitle" class="text-xl font-bold">Edit</h3><p class="mt-1 text-sm text-steel dark:text-slate-400">Saved to the SQL Server database.</p></div>
+        <button id="closeContent" class="grid h-9 w-9 place-items-center rounded-lg text-steel transition hover:bg-slate-100 dark:hover:bg-white/10"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+      </div>
+      <form id="contentForm" class="mt-6 space-y-4">
+        <div id="contentFields" class="space-y-4"></div>
+        <p id="contentError" class="hidden text-sm font-medium text-red-600 dark:text-red-400"></p>
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" id="cancelContent" class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-steel transition hover:bg-slate-100 dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/10">Cancel</button>
+          <button type="submit" id="contentSubmit" class="rounded-xl bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink dark:hover:bg-blue-500">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

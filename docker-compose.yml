@@ -1,0 +1,17 @@
+# Local PostgreSQL for development (matches appsettings.Development.json).
+# Usage:  docker compose up -d     then run the API with:  dotnet run
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-postgres
+    environment:
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio
+      POSTGRES_DB: portfoliodb
+    ports:
+      - "5432:5432"
+    volumes:
+      - portfolio_pgdata:/var/lib/postgresql/data
+
+volumes:
+  portfolio_pgdata:

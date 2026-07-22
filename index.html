@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bharath Manepalli — Full Stack Developer</title>
+  <meta name="description" content="Bharath Manepalli — Full Stack Developer | C# & .NET Backend Specialist based in Hyderabad, India." />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            ink: '#0f172a',
+            navy: '#1e40af',
+            steel: '#475569',
+          },
+          boxShadow: {
+            card: '0 1px 2px 0 rgba(15,23,42,0.04), 0 8px 24px -12px rgba(15,23,42,0.10)',
+            lift: '0 12px 40px -12px rgba(15,23,42,0.18)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body { font-feature-settings: "cv02", "cv03", "cv04", "cv11"; }
+    ::selection { background: #1e40af; color: #fff; }
+
+    .bg-dots {
+      background-image: radial-gradient(rgba(15,23,42,0.06) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; }
+    .reveal.in { animation: riseIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+    .modal-enter { opacity: 0; }
+    .modal-enter .modal-panel { transform: translateY(16px) scale(0.98); }
+
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; border: 2px solid #f8fafc; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-ink font-sans antialiased leading-relaxed selection:bg-navy selection:text-white">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="fixed top-0 inset-x-0 z-40">
+    <div class="mx-auto max-w-6xl px-5">
+      <nav class="mt-4 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 shadow-card backdrop-blur-md">
+        <a href="#home" class="flex items-center gap-2.5 font-bold tracking-tight">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-ink text-sm font-black text-white">BM</span>
+          <span class="hidden sm:block text-[15px]">Bharath Manepalli</span>
+        </a>
+
+        <div class="hidden items-center gap-1 md:flex">
+          <a href="#about" class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink">About</a>
+          <a href="#skills" class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink">Skills</a>
+          <a href="#experience" class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink">Experience</a>
+          <a href="#projects" class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink">Projects</a>
+          <a href="#achievements" class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink">Achievements</a>
+          <a href="#contact" class="rounded-lg px-3 py-2 text-sm font-medium text-steel transition hover:bg-slate-100 hover:text-ink">Contact</a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a href="#contact" class="hidden rounded-xl bg-ink px-4 py-2 text-sm font-semibold text-white transition hover:bg-navy sm:inline-flex">
+            Get in touch
+          </a>
+          <!-- Discreet Owner/Admin toggle (password protected) -->
+          <button id="adminToggle" title="Owner login"
+            class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white text-steel transition hover:border-navy hover:text-navy">
+            <svg id="adminIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="11" width="16" height="9" rx="2" />
+              <path d="M8 11V7a4 4 0 1 1 8 0v4" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Admin mode status banner -->
+  <div id="adminBanner" class="fixed top-[84px] inset-x-0 z-30 hidden justify-center px-5">
+    <button id="exitAdmin" class="flex items-center gap-2 rounded-full border border-navy/20 bg-navy/5 px-4 py-1.5 text-xs font-semibold text-navy transition hover:bg-navy/10">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-navy opacity-60"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-navy"></span>
+      </span>
+      Owner Mode active — click to exit
+    </button>
+  </div>
+
+  <main class="pt-28">
+
+    <!-- ===================== HERO ===================== -->
+    <section id="home" class="relative overflow-hidden">
+      <div class="pointer-events-none absolute inset-0 bg-dots [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]"></div>
+      <div class="relative mx-auto max-w-6xl px-5 pb-16 pt-10 sm:pt-16">
+        <div class="reveal">
+          <span class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-steel shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            2025 Graduate · Available for full-time roles
+          </span>
+        </div>
+
+        <h1 class="reveal mt-6 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-6xl">
+          Hi, I'm Bharath Manepalli.<br />
+          I build <span class="text-navy">reliable backends</span> &amp; clean full-stack products.
+        </h1>
+
+        <p class="reveal mt-6 max-w-2xl text-lg leading-relaxed text-steel">
+          Full Stack Developer specializing in <span class="font-semibold text-ink">C# &amp; .NET</span> backend engineering — designing scalable RESTful APIs, secure authentication systems, and modern web experiences from Hyderabad, India.
+        </p>
+
+        <div class="reveal mt-8 flex flex-wrap items-center gap-3">
+          <a href="Bharath_Manepalli_Resume.pdf" download
+            class="inline-flex items-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-navy hover:shadow-lift">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" />
+            </svg>
+            Download Resume
+          </a>
+          <a href="https://github.com/Nani-Hatake" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-ink shadow-sm transition hover:border-navy hover:text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/manepalli-bharath-247b3b233/" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-ink shadow-sm transition hover:border-navy hover:text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:bharath3890@gmail.com"
+            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-ink shadow-sm transition hover:border-navy hover:text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6"/></svg>
+            Contact
+          </a>
+        </div>
+
+        <!-- Bento quick-stats -->
+        <div class="reveal mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+            <div class="text-3xl font-extrabold tracking-tight text-ink">200<span class="text-navy">+</span></div>
+            <div class="mt-1 text-sm text-steel">DSA problems solved</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+            <div class="text-3xl font-extrabold tracking-tight text-ink">7.2</div>
+            <div class="mt-1 text-sm text-steel">B.Tech CGPA</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+            <div class="text-3xl font-extrabold tracking-tight text-ink">3<span class="text-navy">×</span></div>
+            <div class="mt-1 text-sm text-steel">Coding contest wins</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-card">
+            <div class="text-3xl font-extrabold tracking-tight text-ink">.NET</div>
+            <div class="mt-1 text-sm text-steel">Backend specialist</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="md:col-span-1">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy">About</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink">A bit about me</h2>
+        </div>
+        <div class="md:col-span-2">
+          <p class="text-lg leading-relaxed text-steel">
+            I'm a motivated Computer Science graduate with hands-on experience in <span class="font-semibold text-ink">full-stack web development</span> across PHP, JavaScript, React, Node.js, C#, .NET and ASP.NET Core Web API. I enjoy building scalable web applications with robust authentication systems, role-based access control, and clean RESTful APIs.
+          </p>
+          <p class="mt-4 text-lg leading-relaxed text-steel">
+            My projects range from a C# / ASP.NET Core expense-tracking API and a MERN cab-booking system to an AI-powered design validation tool built on LLMs and vector databases. I'm comfortable with Git-based collaboration and enjoy sharpening my problem-solving with 200+ solved algorithmic challenges.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <span class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-steel shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-4.35-7-10a7 7 0 1 1 14 0c0 5.65-7 10-7 10z" /><circle cx="12" cy="11" r="2.5" /></svg>
+              Hyderabad, Telangana, India
+            </span>
+            <a href="tel:+919110704526" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-steel shadow-sm transition hover:border-navy hover:text-navy">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 0 1 2-2h2.3a1 1 0 0 1 1 .76l1 4a1 1 0 0 1-.29.95L7.6 10.6a12 12 0 0 0 5.8 5.8l1.9-1.9a1 1 0 0 1 .95-.29l4 1a1 1 0 0 1 .76 1V19a2 2 0 0 1-2 2A16 16 0 0 1 3 5z"/></svg>
+              +91 91107 04526
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SKILLS ===================== -->
+    <section id="skills" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-navy">Skills</p>
+        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink">Technical toolkit</h2>
+        <p class="mt-3 text-lg leading-relaxed text-steel">The languages, frameworks, and tools I reach for to design and ship full-stack products.</p>
+      </div>
+
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="skillsGrid"></div>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section id="experience" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-navy">Experience</p>
+        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink">Where I've worked</h2>
+      </div>
+
+      <div class="mt-10">
+        <div class="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h3 class="text-xl font-bold text-ink">Full Stack Developer Intern</h3>
+              <p class="mt-1 font-semibold text-navy">Hilton Tech</p>
+            </div>
+            <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-steel">Internship</span>
+          </div>
+          <ul class="mt-5 space-y-3 text-steel">
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Developed full-stack web application features using <span class="font-medium text-ink">PHP, HTML, CSS, JavaScript, and MySQL</span>.</span></li>
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Implemented secure user authentication and <span class="font-medium text-ink">role-based access control</span> for managing user permissions.</span></li>
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Built responsive frontend components and integrated them with backend services using <span class="font-medium text-ink">AJAX &amp; JSON</span> for asynchronous data flow.</span></li>
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>Managed application data in MySQL with full CRUD operations, and collaborated via <span class="font-medium text-ink">Git &amp; GitHub</span>.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EDUCATION ===================== -->
+    <section id="education" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-navy">Education</p>
+        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink">Academic background</h2>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
+          <div class="flex items-center justify-between gap-3">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4L2 9l10 5 10-5-10-5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 11v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg>
+            </span>
+            <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-steel">2021 – 2025</span>
+          </div>
+          <p class="mt-5 font-semibold text-ink">B.Tech, Computer Science &amp; Engineering</p>
+          <p class="mt-1 text-steel">Kallam Haranadhareddy Institute of Technology, Guntur</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-1.5 text-sm font-semibold text-navy">CGPA: 7.2 / 10</span>
+            <span class="inline-flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-1.5 text-sm font-semibold text-steel">No active backlogs</span>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
+          <div class="flex items-center justify-between gap-3">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4L2 9l10 5 10-5-10-5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 11v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg>
+            </span>
+            <span class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-steel">2019 – 2021</span>
+          </div>
+          <p class="mt-5 font-semibold text-ink">Intermediate (Class XII)</p>
+          <p class="mt-1 text-steel">NRI Junior College, Guntur</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 rounded-lg bg-slate-50 px-3 py-1.5 text-sm font-semibold text-navy">Percentage: 74.3%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section id="projects" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div class="max-w-2xl">
+          <p class="text-sm font-semibold uppercase tracking-widest text-navy">Projects</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink">Selected work</h2>
+          <p class="mt-3 text-lg leading-relaxed text-steel">A collection of things I've designed and built.</p>
+        </div>
+        <button id="addProjectBtn"
+          class="admin-only hidden items-center gap-2 rounded-xl bg-navy px-5 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-ink hover:shadow-lift">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+          Add New Project
+        </button>
+      </div>
+
+      <div id="projectsGrid" class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <p id="emptyState" class="mt-10 hidden rounded-2xl border border-dashed border-slate-300 bg-white/60 py-14 text-center text-steel">
+        No projects yet. Log in as owner to add your first project.
+      </p>
+    </section>
+
+    <!-- ===================== ACHIEVEMENTS & CERTIFICATIONS ===================== -->
+    <section id="achievements" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="max-w-2xl">
+        <p class="text-sm font-semibold uppercase tracking-widest text-navy">Achievements &amp; Certifications</p>
+        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink">Milestones &amp; recognition</h2>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
+          <div class="flex items-center gap-3">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M5 6H3v1a3 3 0 0 0 3 3M19 6h2v1a3 3 0 0 1-3 3"/></svg>
+            </span>
+            <h3 class="text-lg font-bold text-ink">Achievements</h3>
+          </div>
+          <ul class="mt-5 space-y-3 text-steel">
+            <li class="flex items-center gap-3"><span class="text-xl font-extrabold text-ink">200+</span><span>problems solved (150+ HackerRank · 50+ LeetCode)</span></li>
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span><span class="font-medium text-ink">Winner</span> — Codesprint Coding Challenge</span></li>
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span><span class="font-medium text-ink">Runner-up</span> — Coding Quiz Competition</span></li>
+            <li class="flex gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="mt-1 h-4 w-4 flex-none text-navy" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span><span class="font-medium text-ink">1st Place</span> — Codetantra Coding Hackathon</span></li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-card sm:p-8">
+          <div class="flex items-center gap-3">
+            <span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+            </span>
+            <h3 class="text-lg font-bold text-ink">Certifications</h3>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-steel">Python Programming — NPTEL</span>
+            <span class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-steel">SQL — HackerRank</span>
+            <span class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-steel">Machine Learning — NPTEL</span>
+            <span class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm font-medium text-steel">Cisco Networking Essentials</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="mx-auto max-w-6xl px-5 py-16">
+      <div class="overflow-hidden rounded-3xl border border-slate-200 bg-ink px-6 py-14 text-center shadow-lift sm:px-12">
+        <p class="text-sm font-semibold uppercase tracking-widest text-white/60">Contact</p>
+        <h2 class="mx-auto mt-3 max-w-2xl text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Let's build something great together.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-white/70">Have a role, project, or idea in mind? I'd love to hear about it.</p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href="mailto:bharath3890@gmail.com" class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-ink transition hover:bg-slate-100">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 7l9 6 9-6"/></svg>
+            bharath3890@gmail.com
+          </a>
+          <a href="tel:+919110704526" class="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">+91 91107 04526</a>
+          <a href="https://github.com/Nani-Hatake" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">GitHub</a>
+          <a href="https://www.linkedin.com/in/manepalli-bharath-247b3b233/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-8 text-sm text-steel sm:flex-row">
+      <p>© <span id="year"></span> Bharath Manepalli. All rights reserved.</p>
+      <p>Full Stack Developer · C# &amp; .NET Backend Specialist</p>
+    </div>
+  </footer>
+
+  <!-- ===================== OWNER LOGIN MODAL ===================== -->
+  <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div class="loginOverlay absolute inset-0 bg-ink/40 backdrop-blur-sm"></div>
+    <div class="modal-panel relative w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-6 shadow-lift transition-all sm:p-8">
+      <div class="flex items-start justify-between">
+        <div>
+          <h3 class="text-xl font-bold text-ink">Owner login</h3>
+          <p class="mt-1 text-sm text-steel">Enter your password to manage projects.</p>
+        </div>
+        <button id="closeLogin" class="grid h-9 w-9 place-items-center rounded-lg text-steel transition hover:bg-slate-100 hover:text-ink">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="loginForm" class="mt-6 space-y-4">
+        <input id="loginPassword" type="password" required placeholder="Password" autocomplete="current-password"
+          class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-ink outline-none transition placeholder:text-slate-400 focus:border-navy focus:bg-white focus:ring-2 focus:ring-navy/20" />
+        <p id="loginError" class="hidden text-sm font-medium text-red-600">Incorrect password. Try again.</p>
+        <button type="submit" class="w-full rounded-xl bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink">Unlock Owner Mode</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== ADD/EDIT PROJECT MODAL ===================== -->
+  <div id="projectModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+    <div id="modalOverlay" class="absolute inset-0 bg-ink/40 backdrop-blur-sm"></div>
+    <div class="modal-panel relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-lift transition-all sm:p-8">
+      <div class="flex items-start justify-between">
+        <div>
+          <h3 id="modalTitle" class="text-xl font-bold text-ink">Add New Project</h3>
+          <p class="mt-1 text-sm text-steel">Fill in the details below. Saved to your browser instantly.</p>
+        </div>
+        <button id="closeModal" class="grid h-9 w-9 place-items-center rounded-lg text-steel transition hover:bg-slate-100 hover:text-ink">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="projectForm" class="mt-6 space-y-4">
+        <input type="hidden" id="f-id" name="id" />
+        <div>
+          <label class="mb-1.5 block text-sm font-semibold text-ink" for="f-title">Project Title</label>
+          <input id="f-title" name="title" type="text" required placeholder="e.g. Inventory Management API"
+            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-ink outline-none transition placeholder:text-slate-400 focus:border-navy focus:bg-white focus:ring-2 focus:ring-navy/20" />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-semibold text-ink" for="f-desc">Description</label>
+          <textarea id="f-desc" name="description" rows="3" required placeholder="A short summary of what this project does."
+            class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-ink outline-none transition placeholder:text-slate-400 focus:border-navy focus:bg-white focus:ring-2 focus:ring-navy/20"></textarea>
+        </div>
+        <div>
+          <label class="mb-1.5 block text-sm font-semibold text-ink" for="f-tech">Tech Stack <span class="font-normal text-steel">(comma-separated)</span></label>
+          <input id="f-tech" name="techStack" type="text" placeholder="C#, .NET, SQL Server"
+            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-ink outline-none transition placeholder:text-slate-400 focus:border-navy focus:bg-white focus:ring-2 focus:ring-navy/20" />
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label class="mb-1.5 block text-sm font-semibold text-ink" for="f-github">GitHub Link</label>
+            <input id="f-github" name="githubLink" type="url" placeholder="https://github.com/..."
+              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-ink outline-none transition placeholder:text-slate-400 focus:border-navy focus:bg-white focus:ring-2 focus:ring-navy/20" />
+          </div>
+          <div>
+            <label class="mb-1.5 block text-sm font-semibold text-ink" for="f-live">Live Demo Link</label>
+            <input id="f-live" name="liveDemoLink" type="url" placeholder="https://..."
+              class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-ink outline-none transition placeholder:text-slate-400 focus:border-navy focus:bg-white focus:ring-2 focus:ring-navy/20" />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <button type="button" id="cancelModal" class="rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-semibold text-steel transition hover:bg-slate-100">Cancel</button>
+          <button type="submit" class="rounded-xl bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== SCRIPT ===================== -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ============================================================
+       OWNER PASSWORD — change this to your own secret.
+       Note: this is a client-side gate to keep casual visitors
+       in view-only mode. It is not bank-grade security, but it
+       stops recruiters/visitors from editing your portfolio.
+       ============================================================ */
+    const OWNER_PASSWORD = 'bharath@2025';
+
+    const STORAGE_KEY = 'bm_portfolio_projects_v2';
+    const SESSION_KEY = 'bm_portfolio_owner';
+
+    /* ---------- Default projects (loaded only if storage is empty) ----------
+       Sourced from github.com/Nani-Hatake */
+    const DEFAULT_PROJECTS = [
+      {
+        id: 'p_resolvedesk',
+        title: 'ResolveDesk',
+        description: 'An enterprise IT helpdesk and ticket-management system to track, manage, and resolve support tickets. Features a tickets dashboard, detailed case views, collaborative comment threads, and request forms — backed by an ASP.NET Core 10 API over SQL Server with a React 18 + Vite frontend.',
+        techStack: ['C#', 'ASP.NET Core', 'SQL Server', 'React', 'Vite'],
+        githubLink: 'https://github.com/Nani-Hatake/ResolveDesk',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_aurastream',
+        title: 'AuraStream',
+        description: 'A full-stack music streaming web app with real audio playback, dynamic waveform visualization, and persistent user preferences. Browse tracks, artists, and playlists through a polished React interface backed by an OOP PHP + MySQL layer for data persistence and stream tracking.',
+        techStack: ['React', 'Vite', 'PHP', 'MySQL', 'HTML5 Audio API'],
+        githubLink: 'https://github.com/Nani-Hatake/AuraStream',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_topshot',
+        title: 'TopShot Sports Platform',
+        description: 'A sports facility management and community platform where users book courts, join leagues, access training programs, and shop for equipment. Supports multiple sports like badminton and pickleball with memberships, news, authentication, and contact management.',
+        techStack: ['PHP', 'CSS', 'JavaScript'],
+        githubLink: 'https://github.com/Nani-Hatake/topshot-sports-platform',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_coffeeshop',
+        title: 'Artisan Brew — Coffee App',
+        description: 'A full-stack premium coffee ordering application with user authentication, product browsing, shopping cart, order management, and a loyalty rewards system. Built on a FastAPI + SQLAlchemy backend with JWT auth and a React + Tailwind CSS frontend for an end-to-end e-commerce flow.',
+        techStack: ['Python', 'FastAPI', 'SQLAlchemy', 'React', 'Tailwind CSS'],
+        githubLink: 'https://github.com/Nani-Hatake/CoffeeShop',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_bugtracker',
+        title: 'AI Bug Tracker',
+        description: 'A Node.js bug-tracking application that brings AI assistance to issue triage and management, providing a lightweight API-driven workflow for logging and organizing software defects.',
+        techStack: ['JavaScript', 'Node.js', 'AI'],
+        githubLink: 'https://github.com/Nani-Hatake/ai-bug-tracker',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_lumora',
+        title: 'Lumora Nutrition Website',
+        description: 'A responsive nutrition website showcasing health products, services, and information. Built end-to-end with HTML, CSS, JavaScript and PHP, featuring dynamic contact forms and MySQL database integration with a focus on accessibility.',
+        techStack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
+        githubLink: 'https://github.com/Nani-Hatake/Lumora-nutritionwebsite',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_frontend',
+        title: 'React Frontend Starter',
+        description: 'A modern React + Vite frontend template configured with Tailwind CSS, ESLint, and PostCSS, deployed on Vercel — a clean, production-ready base for spinning up new interfaces quickly.',
+        techStack: ['React', 'Vite', 'Tailwind CSS', 'JavaScript'],
+        githubLink: 'https://github.com/Nani-Hatake/my-frontend',
+        liveDemoLink: ''
+      },
+      {
+        id: 'p_binarycalc',
+        title: 'Binary Calculator',
+        description: 'A beginner-friendly binary calculator that performs arithmetic and conversions between binary and decimal, built with vanilla JavaScript to demonstrate core logic and clean DOM handling.',
+        techStack: ['JavaScript', 'HTML', 'CSS'],
+        githubLink: 'https://github.com/Nani-Hatake/Binary-Calculator',
+        liveDemoLink: ''
+      }
+    ];
+
+    /* ---------- Skills data ---------- */
+    const SKILLS = [
+      { title: 'Programming Languages', items: ['C#', 'PHP', 'JavaScript', 'Python (Basic)'], icon: 'code' },
+      { title: 'Web Technologies', items: ['HTML5', 'CSS3', 'React.js', 'Node.js'], icon: 'globe' },
+      { title: 'Backend Development', items: ['ASP.NET Core Web API', 'REST API Design', 'Authentication Systems', 'Server-side Dev'], icon: 'server' },
+      { title: 'Databases', items: ['SQL Server', 'MySQL', 'MongoDB', 'Dapper ORM'], icon: 'database' },
+      { title: 'Tools & Practices', items: ['Git', 'GitHub', 'OOP', 'SDLC'], icon: 'tool' },
+      { title: 'AI & LLM Technologies', items: ['Large Language Models', 'Vector Databases', 'RAG'], icon: 'sparkles' }
+    ];
+
+    const ICONS = {
+      code: '<path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 5l-2 14"/>',
+      globe: '<circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/>',
+      server: '<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path stroke-linecap="round" d="M7 7.5h.01M7 16.5h.01"/>',
+      database: '<ellipse cx="12" cy="6" rx="8" ry="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+      tool: '<path stroke-linecap="round" stroke-linejoin="round" d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2 2.5-2.5z"/>',
+      sparkles: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3l1.8 4.7L18 9.5l-4.2 1.8L12 16l-1.8-4.7L6 9.5l4.2-1.8L12 3zM18 15l.9 2.3L21 18l-2.1.7L18 21l-.9-2.3L15 18l2.1-.7L18 15z"/>'
+    };
+
+    /* ---------- State ---------- */
+    let projects = [];
+    let adminMode = false;
+
+    /* ---------- DOM refs ---------- */
+    const $ = (sel) => document.querySelector(sel);
+    const projectsGrid = $('#projectsGrid');
+    const emptyState = $('#emptyState');
+    const skillsGrid = $('#skillsGrid');
+    const modal = $('#projectModal');
+    const loginModal = $('#loginModal');
+    const form = $('#projectForm');
+
+    /* ---------- Storage helpers ---------- */
+    function loadProjects() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (e) { console.warn('Could not read projects:', e); }
+      return DEFAULT_PROJECTS.slice();
+    }
+
+    function saveProjects() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(projects)); }
+      catch (e) { console.warn('Could not save projects:', e); }
+    }
+
+    function makeId() {
+      return 'p_' + Date.now().toString(36) + '_' + Math.floor(Math.random() * 1e4).toString(36);
+    }
+
+    /* ---------- Utilities ---------- */
+    function escapeHtml(str) {
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function safeUrl(url) {
+      const u = String(url || '').trim();
+      return /^https?:\/\//i.test(u) ? u : '';
+    }
+
+    /* ---------- Render: Skills ---------- */
+    function renderSkills() {
+      skillsGrid.innerHTML = SKILLS.map((cat) => `
+        <div class="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-lift">
+          <span class="grid h-11 w-11 place-items-center rounded-xl bg-navy/10 text-navy transition group-hover:bg-navy group-hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${ICONS[cat.icon] || ''}</svg>
+          </span>
+          <h3 class="mt-5 text-base font-bold text-ink">${escapeHtml(cat.title)}</h3>
+          <div class="mt-4 flex flex-wrap gap-2">
+            ${cat.items.map((i) => `<span class="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-steel">${escapeHtml(i)}</span>`).join('')}
+          </div>
+        </div>`).join('');
+    }
+
+    /* ---------- Render: Projects ---------- */
+    function renderProjects() {
+      if (!projects.length) {
+        projectsGrid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      projectsGrid.innerHTML = projects.map((p) => {
+        const gh = safeUrl(p.githubLink);
+        const live = safeUrl(p.liveDemoLink);
+        const tags = Array.isArray(p.techStack) ? p.techStack : [];
+        const links = [];
+        if (gh) links.push(`<a href="${escapeHtml(gh)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition hover:text-navy"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>Code</a>`);
+        if (live) links.push(`<a href="${escapeHtml(live)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition hover:text-navy"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6M20 4l-9 9M19 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/></svg>Live Demo</a>`);
+        const linksHtml = links.length
+          ? `<div class="mt-5 flex items-center gap-5 border-t border-slate-100 pt-4">${links.join('')}</div>`
+          : `<div class="mt-5 border-t border-slate-100 pt-4 text-sm text-slate-400">Links coming soon</div>`;
+
+        return `
+        <article class="group relative flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-lift">
+          <div class="admin-only absolute right-4 top-4 hidden items-center gap-1.5">
+            <button data-edit="${escapeHtml(p.id)}" title="Edit project" class="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 bg-white text-steel transition hover:border-navy hover:text-navy">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 4l4 4M4 20l1-4L16 5l3 3L8 19l-4 1z"/></svg>
+            </button>
+            <button data-delete="${escapeHtml(p.id)}" title="Delete project" class="grid h-8 w-8 place-items-center rounded-lg border border-red-200 bg-red-50 text-red-600 transition hover:bg-red-600 hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-7 0h6l-.6 12a1 1 0 0 1-1 1H8.6a1 1 0 0 1-1-1L7 7z"/></svg>
+            </button>
+          </div>
+          <div class="flex items-center gap-2 text-navy">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>
+          </div>
+          <h3 class="mt-4 pr-16 text-lg font-bold text-ink">${escapeHtml(p.title)}</h3>
+          <p class="mt-2 flex-1 text-sm leading-relaxed text-steel">${escapeHtml(p.description)}</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            ${tags.map((t) => `<span class="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-steel">${escapeHtml(t)}</span>`).join('')}
+          </div>
+          ${linksHtml}
+        </article>`;
+      }).join('');
+
+      applyAdminVisibility();
+    }
+
+    /* ---------- Admin mode ---------- */
+    function applyAdminVisibility() {
+      document.querySelectorAll('.admin-only').forEach((el) => {
+        el.classList.toggle('hidden', !adminMode);
+        if (el.id === 'addProjectBtn') el.classList.toggle('inline-flex', adminMode);
+        else el.classList.toggle('flex', adminMode);
+      });
+    }
+
+    function setAdminMode(on) {
+      adminMode = on;
+      const banner = $('#adminBanner');
+      const toggle = $('#adminToggle');
+      banner.classList.toggle('hidden', !on);
+      banner.classList.toggle('flex', on);
+      toggle.classList.toggle('border-navy', on);
+      toggle.classList.toggle('text-navy', on);
+      toggle.classList.toggle('bg-navy/5', on);
+      toggle.title = on ? 'Owner Mode active' : 'Owner login';
+      applyAdminVisibility();
+    }
+
+    /* ---------- Login modal ---------- */
+    function openLogin() {
+      $('#loginPassword').value = '';
+      $('#loginError').classList.add('hidden');
+      loginModal.classList.remove('hidden');
+      loginModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => $('#loginPassword').focus(), 60);
+    }
+    function closeLogin() {
+      loginModal.classList.add('hidden');
+      loginModal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+    function handleLogin(e) {
+      e.preventDefault();
+      const val = $('#loginPassword').value;
+      if (val === OWNER_PASSWORD) {
+        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (_) {}
+        setAdminMode(true);
+        closeLogin();
+      } else {
+        $('#loginError').classList.remove('hidden');
+        $('#loginPassword').value = '';
+        $('#loginPassword').focus();
+      }
+    }
+
+    /* ---------- Project modal (add / edit) ---------- */
+    function openModal(project) {
+      form.reset();
+      if (project) {
+        $('#modalTitle').textContent = 'Edit Project';
+        $('#f-id').value = project.id;
+        $('#f-title').value = project.title || '';
+        $('#f-desc').value = project.description || '';
+        $('#f-tech').value = (project.techStack || []).join(', ');
+        $('#f-github').value = project.githubLink || '';
+        $('#f-live').value = project.liveDemoLink || '';
+      } else {
+        $('#modalTitle').textContent = 'Add New Project';
+        $('#f-id').value = '';
+      }
+      modal.classList.remove('hidden');
+      modal.classList.add('flex', 'modal-enter');
+      requestAnimationFrame(() => modal.classList.remove('modal-enter'));
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => $('#f-title').focus(), 60);
+    }
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const id = String(data.get('id') || '');
+      const techRaw = String(data.get('techStack') || '');
+      const payload = {
+        title: String(data.get('title') || '').trim(),
+        description: String(data.get('description') || '').trim(),
+        techStack: techRaw.split(',').map((t) => t.trim()).filter(Boolean),
+        githubLink: String(data.get('githubLink') || '').trim(),
+        liveDemoLink: String(data.get('liveDemoLink') || '').trim()
+      };
+      if (!payload.title || !payload.description) return;
+
+      if (id) {
+        const idx = projects.findIndex((p) => p.id === id);
+        if (idx !== -1) projects[idx] = Object.assign({}, projects[idx], payload);
+      } else {
+        projects.unshift(Object.assign({ id: makeId() }, payload));
+      }
+      saveProjects();
+      renderProjects();
+      closeModal();
+    }
+
+    /* ---------- Grid clicks (edit / delete) ---------- */
+    function handleGridClick(e) {
+      const editBtn = e.target.closest('[data-edit]');
+      if (editBtn) {
+        const proj = projects.find((p) => p.id === editBtn.getAttribute('data-edit'));
+        if (proj) openModal(proj);
+        return;
+      }
+      const delBtn = e.target.closest('[data-delete]');
+      if (delBtn) {
+        const id = delBtn.getAttribute('data-delete');
+        const proj = projects.find((p) => p.id === id);
+        const name = proj ? proj.title : 'this project';
+        if (window.confirm('Delete "' + name + '"? This cannot be undone.')) {
+          projects = projects.filter((p) => p.id !== id);
+          saveProjects();
+          renderProjects();
+        }
+      }
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    function initReveal() {
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('in')); return; }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationDelay = (i * 80) + 'ms';
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach((el) => io.observe(el));
+    }
+
+    /* ---------- Init ---------- */
+    function init() {
+      $('#year').textContent = new Date().getFullYear();
+      projects = loadProjects();
+      renderSkills();
+      renderProjects();
+      initReveal();
+
+      // Restore owner session if still active this tab
+      try { if (sessionStorage.getItem(SESSION_KEY) === '1') setAdminMode(true); } catch (_) {}
+
+      // Owner toggle: if already in admin, clicking exits; else open login
+      $('#adminToggle').addEventListener('click', () => {
+        if (adminMode) { try { sessionStorage.removeItem(SESSION_KEY); } catch (_) {} setAdminMode(false); }
+        else openLogin();
+      });
+      $('#exitAdmin').addEventListener('click', () => {
+        try { sessionStorage.removeItem(SESSION_KEY); } catch (_) {}
+        setAdminMode(false);
+      });
+
+      $('#loginForm').addEventListener('submit', handleLogin);
+      $('#closeLogin').addEventListener('click', closeLogin);
+      document.querySelector('.loginOverlay').addEventListener('click', closeLogin);
+
+      $('#addProjectBtn').addEventListener('click', () => openModal(null));
+      $('#closeModal').addEventListener('click', closeModal);
+      $('#cancelModal').addEventListener('click', closeModal);
+      $('#modalOverlay').addEventListener('click', closeModal);
+      form.addEventListener('submit', handleSubmit);
+      projectsGrid.addEventListener('click', handleGridClick);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (!modal.classList.contains('hidden')) closeModal();
+        if (!loginModal.classList.contains('hidden')) closeLogin();
+      });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+  </script>
+</body>
+</html>
